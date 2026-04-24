@@ -17,16 +17,18 @@
 package android.template.feature.mymodel.ui.mymodel
 
 
+import android.template.core.data.repository.BasicPreferencesRepository
+import android.template.core.data.repository.MyModelRepository
+import android.template.feature.mymodel.ui.MyModelUiState
+import android.template.feature.mymodel.ui.MyModelViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
+import me.akshay.datastore.BasicPreferences
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import android.template.core.data.repository.MyModelRepository
-import android.template.feature.mymodel.ui.MyModelUiState
-import android.template.feature.mymodel.ui.MyModelViewModel
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -37,13 +39,13 @@ import android.template.feature.mymodel.ui.MyModelViewModel
 class MyModelViewModelTest {
     @Test
     fun uiState_initiallyLoading() = runTest {
-        val viewModel = MyModelViewModel(FakeMyModelRepository())
+        val viewModel = MyModelViewModel(FakeMyModelRepository(), FakeBasicRepository())
         assertEquals(viewModel.uiState.first(), MyModelUiState.Loading)
     }
 
     @Test
     fun uiState_onItemSaved_isDisplayed() = runTest {
-        val viewModel = MyModelViewModel(FakeMyModelRepository())
+        val viewModel = MyModelViewModel(FakeMyModelRepository(), FakeBasicRepository())
         assertEquals(viewModel.uiState.first(), MyModelUiState.Loading)
     }
 }
@@ -57,5 +59,19 @@ private class FakeMyModelRepository : MyModelRepository {
 
     override suspend fun add(name: String) {
         data.add(0, name)
+    }
+}
+private class FakeBasicRepository : BasicPreferencesRepository {
+
+    private var firstTime = true
+    override val basicPreferences: Flow<BasicPreferences>
+        get() = flow { emit(BasicPreferences(firstTime = firstTime)) }
+
+    override suspend fun firstTimeComplete(boolean: Boolean) {
+        firstTime = boolean
+    }
+
+    override suspend fun clearAll() {
+        firstTime = false
     }
 }

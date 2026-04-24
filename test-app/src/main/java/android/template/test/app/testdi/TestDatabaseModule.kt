@@ -16,13 +16,13 @@
 
 package android.template.test.app.testdi
 
+import android.template.core.data.di.DataModule
+import android.template.core.data.di.FakeMyModelRepository
+import android.template.core.data.repository.MyModelRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
-import android.template.core.data.repository.MyModelRepository
-import android.template.core.data.di.DataModule
-import android.template.core.data.di.FakeMyModelRepository
 
 @Module
 @TestInstallIn(
@@ -32,7 +32,7 @@ import android.template.core.data.di.FakeMyModelRepository
 interface FakeDataModule {
 
     @Binds
-    abstract fun bindRepository(
+    fun bindRepository(
         fakeRepository: FakeMyModelRepository
     ): MyModelRepository
 }

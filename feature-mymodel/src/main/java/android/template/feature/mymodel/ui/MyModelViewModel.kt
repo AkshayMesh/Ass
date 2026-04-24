@@ -17,6 +17,7 @@
 package android.template.feature.mymodel.ui
 
 import android.template.core.data.repository.BasicPreferencesRepository
+import android.template.core.data.repository.MyModelRepository
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,7 +27,6 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import android.template.core.data.repository.MyModelRepository
 import me.akshay.datastore.BasicPreferences
 import javax.inject.Inject
 
@@ -47,6 +47,11 @@ class MyModelViewModel @Inject constructor(
     fun addMyModel(name: String) {
         viewModelScope.launch {
             myModelRepository.add(name)
+        }
+    }
+    fun firstTimeComplete() {
+        viewModelScope.launch {
+            basicPreferencesRepository.firstTimeComplete(false)
         }
     }
 }

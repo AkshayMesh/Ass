@@ -16,14 +16,14 @@
 
 package android.template.test.app
 
-import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import android.template.core.data.di.fakeMyModels
+import android.template.ui.MainActivity
+import androidx.compose.ui.test.junit4.v2.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Rule
 import org.junit.Test
-import android.template.core.data.di.fakeMyModels
-import android.template.ui.MainActivity
 
 @HiltAndroidTest
 class AppTest {
